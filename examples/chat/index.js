@@ -96,6 +96,7 @@ io.on('connection', function (socket) {
       for(var i = groups[socket.groupID].length - 1; i >= 0; i--) {
         if(groups[socket.groupID][i] === socket.username) {
         groups[socket.groupID].splice(i, 1);
+        break;
     }
 }
 
