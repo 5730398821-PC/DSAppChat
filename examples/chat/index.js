@@ -49,7 +49,7 @@ io.on('connection', function (socket) {
     groups[groupID].push(username)
     socket.room = groupID
     socket.join(groupID)
-    console.log(socket.username+"   "+socket.room)
+    //console.log(socket.username+"   "+socket.room)
    /* if(username.substr(0, 1) == 'A' ) {
     socket.room = 'roomA';
     socket.join('roomA');
@@ -95,18 +95,39 @@ io.on('connection', function (socket) {
       //--numUsers[socket.groupID];
       for(var i = groups[socket.groupID].length - 1; i >= 0; i--) {
         if(groups[socket.groupID][i] === socket.username) {
-        groups[socket.groupID].splice(i, 1);
-        break;
-    }
-}
-
-
-
+          groups[socket.groupID].splice(i, 1);
+          break;
+        }
+      }
+      //console.log('successfully left');
       // echo globally that this client has left
       socket.broadcast.to(socket.room).emit('user left', {
         username: socket.username,
         numUsers: groups[socket.groupID].length
       });
+      //console.log('broadcast user left');
+
     }
   });
+
+  socket.on('leave room', function () {
+      //--numUsers[socket.groupID];
+      for(var i = groups[socket.groupID].length - 1; i >= 0; i--) {
+        if(groups[socket.groupID][i] === socket.username) {
+          groups[socket.groupID].splice(i, 1);
+          break;
+        }
+      }
+      console.log('successfully left');
+      // echo globally that this client has left
+      socket.broadcast.to(socket.room).emit('user left', {
+        username: socket.username,
+        numUsers: groups[socket.groupID].length
+      });
+      console.log('broadcast user left');
+
+
+  });
+
+
 });

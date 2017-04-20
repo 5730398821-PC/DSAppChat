@@ -149,7 +149,7 @@ ul {
   left: 0;
   outline: none;
   padding-left: 10px;
-  position: absolute;
+  position: fixed;
   right: 0;
   width: 100%;
 }
@@ -179,7 +179,9 @@ ul {
     -webkit-transition-duration: 0.4s; /* Safari */
     transition-duration: 0.4s;
     background-color: white;
-    color: #fc5566;
+    /*color: #fc5566;*/
+    color: #5695ff;
+    /*color: #000;*/
     border: 2px black;
     border-radius: 4px;
     padding: 10px 20px;
@@ -187,7 +189,9 @@ ul {
 }
 
 .sleepButton:hover {
-    background-color: #ff707e;
+    /*background-color: #ff707e;*/ /* Red */
+    /*background-color: #7cffc6;*/  /* Green */
+    background-color: #82b1ff; /* Blue */
     color: white;
     border-radius: 4px;
     padding: 10px 20px;
@@ -198,7 +202,8 @@ ul {
     -webkit-transition-duration: 0.4s; /* Safari */
     transition-duration: 0.4s;
     background-color: white;
-    color: #5695ff;
+    color: #11ff98;
+    /*color: #000;*/
     border: 2px black;
     border-radius: 4px;
     padding: 10px 20px;
@@ -206,7 +211,7 @@ ul {
 }
 
 .unreadButton:hover {
-    background-color: #82b1ff;
+    background-color: #18f79a;
     color: white;
     border-radius: 4px;
     padding: 10px 20px;
@@ -218,16 +223,18 @@ ul {
   border: 2px black;
   border-radius: 4px;
   padding: 10px 20px;
-  font-size: 16px;
+  margin-right: 20px;
+  font-size: 18px;
   color: white;
+  float: right;
 }
 
 .leaveButton:hover{
-  background-color: #c61d2f;
+  background-color: #c11b2e;
   color: white;
   border-radius: 4px;
   padding: 10px 20px;
-  font-size: 16px;
+  font-size: 18px;
 }
 
 

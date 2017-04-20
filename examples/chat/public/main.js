@@ -17,6 +17,8 @@ $(function() {
   var $loginPage = $('.login.page'); // The login page
   var $chatPage = $('.chat.page'); // The chatroom page
 
+  var $leaveButton = $('.leaveButton');
+
   // Prompt for setting a username
   var username;
   var groupID;
@@ -199,6 +201,21 @@ $(function() {
     var index = Math.abs(hash % COLORS.length);
     return COLORS[index];
   }
+
+  //Button events
+    $leaveButton.click(function(){
+      //socket.emit('leave room');
+      var r = confirm("Are you sure you want to leave group ?");
+      if (r == true) {
+        window.location.reload();
+      }
+      //window.location.reload();
+      //alert("Leave Button was clicked.");
+      // $chatPage.fadeOut();
+      // $loginPage.show();
+      // $chatPage.off('click');
+      // $currentInput = $usernameInput.focus();
+    });
 
   // Keyboard events
 
