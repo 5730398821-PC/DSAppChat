@@ -19,18 +19,20 @@ $(function() {
 
   // Prompt for setting a username
   var username;
+  var groupID;
   var connected = false;
   var typing = false;
   var lastTypingTime;
   var $currentInput;//= $usernameInput.focus();
 
   var socket = io();
+
   function addParticipantsMessage (data) {
     var message = '';
     if (data.numUsers === 1) {
-      message += "there's 1 people in this group";
+      message += "there's 1 people in this room";
     } else {
-      message += "there are " + data.numUsers + " people in this group";
+      message += "there are " + data.numUsers + " people in this room";
     }
     log(message);
   }
@@ -239,7 +241,7 @@ $(function() {
   socket.on('login', function (data) {
     connected = true;
     // Display the welcome message
-    var message = "Welcome to Socket.IO Chat – ";
+    var message = "Welcome '" + data.username + "' to The Chat App – Room: " + data.groupID;
     log(message, {
       prepend: true
     });

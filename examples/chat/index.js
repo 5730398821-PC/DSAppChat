@@ -15,8 +15,8 @@ app.use(express.static(__dirname + '/public'));
 // Chatroom
 
 
-var numUsers = 0;
-var groups = {}
+//var numUsers = {};
+var groups = {};
 
 
 io.on('connection', function (socket) {
@@ -41,8 +41,10 @@ io.on('connection', function (socket) {
 
     // we store the username in the socket session for this client
     socket.username = username;
+    socket.groupID = groupID;
     if(groups[groupID]== null){
     groups[groupID] = []
+    //numUsers[groupID] = []
     }
     groups[groupID].push(username)
     socket.room = groupID
@@ -59,15 +61,17 @@ io.on('connection', function (socket) {
     console.log(username+'equal to room B')
 
     }*/
-    ++numUsers;
+    //++numUsers[groupID]
     addedUser = true;
     socket.emit('login', {
-      numUsers: groups[groupID].length
+      numUsers: groups[groupID].length,
+      groupID: groupID,
+      username: socket.username
     });
     // echo globally (all clients) that a person has connected
     socket.broadcast.to(socket.room).emit('user joined', {
       username: socket.username,
-      numUsers: numUsers
+      numUsers: groups[socket.groupID].length
     });
   });
 
@@ -88,12 +92,19 @@ io.on('connection', function (socket) {
   // when the user disconnects.. perform this
   socket.on('disconnect', function () {
     if (addedUser) {
-      --numUsers;
+      //--numUsers[socket.groupID];
+      for(var i = groups[socket.groupID].length - 1; i >= 0; i--) {
+        if(groups[socket.groupID][i] === socket.username) {
+        groups[socket.groupID].splice(i, 1);
+    }
+}
+
+
 
       // echo globally that this client has left
       socket.broadcast.to(socket.room).emit('user left', {
         username: socket.username,
-        numUsers: numUsers
+        numUsers: groups[socket.groupID].length
       });
     }
   });
