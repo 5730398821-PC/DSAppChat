@@ -5,8 +5,9 @@
   <title>DS Chat Application</title>
   <link rel="stylesheet" href="style.css">
 </head>
-<body>
-  <ul class="pages">
+<body style="overflow: hidden;">
+  <ul class="pages" style="position: absolute;">
+
     <li class="chat page">
       <div class="topZone">
         <button class="sleepButton" type="button" style="margin-top:15px;margin-left:20px;margin-bottom:15px"> Sleep </button>
@@ -18,17 +19,24 @@
         <ul class="messages"></ul>
       </div>
       <input class="inputMessage" placeholder="Type here..."/>
+
     </li>
+
     <li class="login page">
-      <div class="form">
-        <h3 class="title">What's your nickname?</h3>
-        <input class="usernameInput" type="text" maxlength="14" />
-        <div>
-            <h5 class="title">Enter Room Name : <input class="groupInput" type="text" maxlength="14" /> </h5>
-        </div>
+        <img src="bg.jpeg" alt="Chat" style="width: 1920px; height: 1080px; position: absolute; margin: auto; top: 0; left: 0; right: 0; bottom: 0;  
+        -webkit-filter: brightness(80%) blur(11px);">
+        <div class="form">
+            <img src="speech-bubble.png" alt="Chat" style="width:150px; height:150px; top:22vh">
+            <h4 style="color: #fff; font-size: 200%">DSAppChat</h4>
+            <input class="usernameInput input-lg" type="text" maxlength="20" placeholder="Your Username"/>
+            <p style=" margin-top: -10px;"></p>
+            <input class="groupInput input-lg" type="text" maxlength="4" placeholder="Room No."/>
+         </div>
+
       </div>
 
     </li>
+
   </ul>
 
   <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
