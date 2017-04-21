@@ -3,16 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <title>DS Chat Application</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/alertify.css">
 </head>
 <body style="overflow: hidden;">
   <ul class="pages" style="position: absolute;">
 
     <li class="chat page">
-      <div class="topZone">
-        <button class="sleepButton" type="button" style="margin-top:15px;margin-left:20px;margin-bottom:15px"> Sleep </button>
-        <button class="unreadButton" type="button" style="margin-top:15px;margin-left:20px;margin-bottom:15px"> Get Unread </button>
-        <button class="leaveButton" id='leaveButton' type="button" style="margin-top:15px;margin-left:20px;margin-bottom:15px"> Leave </button>
+      <div class="topZone">5
+        <button class="sleepButton" type="button" style="margin-top:15px;margin-left:10px;margin-bottom:15px"> <img src="src/noti-1.png" style=" height: 18px; margin-top: -3px"> Noti OFF </button>
+        <button class="sleepButton2" type="button" style="margin-top:15px;margin-left:10px;margin-bottom:15px"> <img src="src/noti-2.png" style=" height: 18px; margin-top: -3px">  Noti ON </button>
+        <button class="unreadButton" type="button" style="margin-top:15px;margin-left:10px;margin-bottom:15px"> <img src="src/unread.png" style=" height: 18px; margin-top: -3px"> Get Unread </button>
+        <button class="leaveButton" id='leaveButton' type="button" style="margin-top:15px;margin-left:10px;margin-bottom:15px"> <img src="src/off.png" style=" height: 18px; margin-top: -3px">  Leave </button>
       </div>
 
       <div class="chatArea">
@@ -23,10 +25,10 @@
     </li>
 
     <li class="login page">
-        <img src="bg.jpeg" alt="Chat" style="width: 1920px; height: 1080px; position: absolute; margin: auto; top: 0; left: 0; right: 0; bottom: 0;  
-        -webkit-filter: brightness(80%) blur(11px);">
+        <img src="src/bg.jpeg" alt="Chat" style="width: 1920px; height: 1080px; position: absolute; margin: auto; top: 0; left: 0; right: 0; bottom: 0;  
+        -webkit-filter: brightness(90%) blur(11px);">
         <div class="form">
-            <img src="speech-bubble.png" alt="Chat" style="width:150px; height:150px; top:22vh">
+            <img src="src/speech-bubble.png" alt="Chat" style="width:150px; height:150px; top:22vh">
             <h4 style="color: #fff; font-size: 200%">DSAppChat</h4>
             <input class="usernameInput input-lg" type="text" maxlength="20" placeholder="Your Username"/>
             <p style=" margin-top: -10px;"></p>
@@ -42,6 +44,7 @@
   <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
   <script src="/socket.io/socket.io.js"></script>
   <script src="/main.js"></script>
+  <script src="/alertify.js"></script>
   <script src="/ui_interaction.js"></script>
 
   </script>

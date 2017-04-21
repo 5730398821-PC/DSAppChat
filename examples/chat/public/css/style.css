@@ -163,78 +163,121 @@ ul {
 }
 
 .timestampBody{
-  font-size: 40%;
+  font-size: 60%;
   margin-left: 20px;
   color: #a8a8a8;
 }
 
+#notifications {
+	cursor: pointer;
+	position: fixed;
+	right: 0px;
+	z-index: 100;
+	bottom: 0px;
+	margin-bottom: 22px;
+	margin-right: 15px;
+	max-width: 300px;	
+}
+
 .sleepButton {
-    -webkit-transition-duration: 0.4s; /* Safari */
-    transition-duration: 0.4s;
-    background-color: white;
-    /*color: #fc5566;*/
-    color: #5695ff;
-    /*color: #000;*/
+
+    outline:none;
+
+    background-color: #5992c6; /* Blue */
+    color: white;
     border: 2px black;
     border-radius: 4px;
-    padding: 10px 20px;
+    padding: 10px 15px;
     font-size: 16px;
+    width: 140px;
 }
 
 .sleepButton:hover {
     /*background-color: #ff707e;*/ /* Red */
     /*background-color: #7cffc6;*/  /* Green */
-    background-color: #82b1ff; /* Blue */
+    background-color: #426d93; /* Blue */
     color: white;
     border-radius: 4px;
-    padding: 10px 20px;
+    padding: 10px 15px;
     font-size: 16px;
+    width: 140px;
+}
+
+.sleepButton2 {
+
+    outline:none;
+
+
+    background-color: #8e7ca3; /* Blue */
+    color: white;
+    border: 2px black;
+    border-radius: 4px;
+    padding: 10px 15px;
+    font-size: 16px;
+    width: 140px;
+}
+
+.sleepButton2:hover {
+    /*background-color: #ff707e;*/ /* Red */
+    /*background-color: #7cffc6;*/  /* Green */
+    background-color: #756489; /* Blue */
+    color: white;
+    border-radius: 4px;
+    padding: 10px 15px;
+    font-size: 16px;
+    width: 140px;
 }
 
 .unreadButton {
-    -webkit-transition-duration: 0.4s; /* Safari */
-    transition-duration: 0.4s;
-    background-color: white;
-    color: #11ff98;
+    outline:none;
+    background-color: #2bc47c;
+    color: white;
     /*color: #000;*/
     border: 2px black;
     border-radius: 4px;
-    padding: 10px 20px;
+    padding: 10px 15px;
     font-size: 16px;
+        width: 140px;
 }
 
 .unreadButton:hover {
-    background-color: #18f79a;
+    background-color: #219960;
     color: white;
     border-radius: 4px;
-    padding: 10px 20px;
+    padding: 10px 15px;
     font-size: 16px;
+    width: 140px;
 }
 
 .leaveButton{
+  -webkit-transition-duration: 0.25s; /* Safari */
+  outline:none;
+  transition-duration: 0.25s;
   background-color: #ff283e;
   border: 2px black;
   border-radius: 4px;
-  padding: 10px 20px;
+  padding: 10px 15px;
   margin-right: 20px;
-  font-size: 18px;
+  font-size: 16px;
   color: white;
   float: right;
+  width: 130px;
 }
 
 .leaveButton:hover{
   background-color: #c11b2e;
   color: white;
   border-radius: 4px;
-  padding: 10px 20px;
-  font-size: 18px;
+  padding: 10px 15px;
+  font-size: 16px;
+  width: 130px;
 }
 
 
 .topZone {
   width: 100%;
-  border: 3px solid #000;
-  background-color: #000;
+
+  background-color: #333;
 }
 
 @charset "UTF-8";
