@@ -10,6 +10,11 @@ html {
   -webkit-font-smoothing: antialiased;
 }
 
+@font-face {
+    font-family: 'Kanit';
+    src: url('fonts/Kanit.ttf') format('truetype');
+}
+
 html, input {
   font-family:
     "Kanit",
@@ -126,16 +131,16 @@ ul {
 /* Messages */
 
 .chatArea {
-  height: 100%;
-  padding-bottom: 60px;
 }
 
 .messages {
-  height: 100%;
+  position: absolute;
   width: 100%;
-  margin: 0;
   overflow-y: scroll;
   padding: 10px 20px 10px 20px;
+  top: 72px;
+  bottom: 60px;
+
 }
 
 .message.typing .messageBody {
@@ -143,7 +148,7 @@ ul {
 }
 
 .username {
-  font-weight: 700;
+  font-weight: 500;
   overflow: hidden;
   padding-right: 15px;
   text-align: right;
@@ -196,8 +201,6 @@ ul {
 .sleepButton2 {
 
     outline:none;
-
-
     background-color: #8e7ca3; /* Blue */
     color: white;
     border: 2px black;
@@ -211,6 +214,26 @@ ul {
     /*background-color: #ff707e;*/ /* Red */
     /*background-color: #7cffc6;*/  /* Green */
     background-color: #756489; /* Blue */
+    color: white;
+    border-radius: 4px;
+    padding: 10px 15px;
+    font-size: 16px;
+    width: 140px;
+}
+
+.unreadButtonNone {
+    outline:none;
+    background-color: #aaa;
+    color: white;
+    border: 2px black;
+    border-radius: 4px;
+    padding: 10px 15px;
+    font-size: 16px;
+    width: 140px;
+}
+
+.unreadButtonNone:hover {
+    background-color: #888;
     color: white;
     border-radius: 4px;
     padding: 10px 15px;

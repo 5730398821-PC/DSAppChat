@@ -823,6 +823,8 @@
 }
 .alertify-notifier {
   position: fixed;
+  margin-bottom: 52px;
+  margin-right: -10px;
   width: 0;
   overflow: visible;
   z-index: 1982;
@@ -848,17 +850,20 @@
   transition-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1.275);
   opacity: 1;
   max-height: 80%;
-  padding: 15px;
-  margin-top: 10px;
+  padding: 12px;
+  padding-left: 15px;
+  margin-bottom: 6px;
+  margin-right: -20px;
 }
 .alertify-notifier .ajs-message.ajs-success {
-  background: rgba(91, 189, 114, 0.95);
+  background: rgba(91, 189, 114, 0.90);
 }
 .alertify-notifier .ajs-message.ajs-error {
-  background: rgba(217, 92, 92, 0.95);
+  background: rgba(217, 92, 92, 0.90);
 }
 .alertify-notifier .ajs-message.ajs-warning {
-  background: rgba(252, 248, 215, 0.95);
+  background: rgba(247, 202, 89, 0.90);
+  color: #333;
 }
 .alertify-notifier .ajs-message .ajs-close {
   position: absolute;

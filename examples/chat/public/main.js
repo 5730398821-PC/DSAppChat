@@ -4,9 +4,12 @@ $(function () {
   var COLORS = [
     '#e21400', '#91580f', '#f8a700', '#f78b00',
     '#58dc00', '#287b00', '#a8f07a', '#4ae8c4',
-    '#3b88eb', '#3824aa', '#a700ff', '#d300e7',
-    '#1bb76a', '#a33bcd', '#8b72b1', '#dcba4d'
+    '#3b88eb', '#3824aa', '#a700ff', '#d300e7'
   ];
+  var sleep = false;
+  var $saveMsg = [];
+  var saveOpt = [];
+  var saveCount = 0;
 
   // Initialize variables
   var $window = $(window);
@@ -21,6 +24,7 @@ $(function () {
   var $sleepButton = $('.sleepButton');
   var $sleepButton2 = $('.sleepButton2');
   var $unreadButton = $('.unreadButton');
+  var $unreadButtonNone = $('.unreadButtonNone');
   var $leaveButton = $('.leaveButton');
 
 
@@ -35,6 +39,7 @@ $(function () {
   var socket = io();
 
   $sleepButton2.hide();
+  $unreadButton.hide();
 
   function addParticipantsMessage(data) {
     var message = '';
@@ -46,49 +51,6 @@ $(function () {
     log(message);
   }
 
-  function Notify(text, callback, close_callback, style) {
-
-    var time = '10000';
-    var $container = $('#notifications');
-    var icon = '<i class="fa fa-info-circle "></i>';
-
-    if (typeof style == 'undefined') style = 'warning'
-
-    var html = $('<div class="alert alert-' + style + '  hide">' + icon + " " + text + '</div>');
-
-    $('<a>', {
-      text: '×',
-      class: 'button close',
-      style: 'padding-left: 10px;',
-      href: '#',
-      click: function (e) {
-        e.preventDefault()
-        close_callback && close_callback()
-        remove_notice()
-      }
-    }).prependTo(html)
-
-    $container.prepend(html)
-    html.removeClass('hide').hide().fadeIn('slow')
-
-    function remove_notice() {
-      html.stop().fadeOut('slow').remove()
-    }
-
-    var timer = setInterval(remove_notice, time);
-
-    $(html).hover(function () {
-      clearInterval(timer);
-    }, function () {
-      timer = setInterval(remove_notice, time);
-    });
-
-    html.on('click', function () {
-      clearInterval(timer)
-      callback && callback()
-      remove_notice()
-    });
-  }
 
   // Sets the client's username
   function setUsername() {
@@ -147,21 +109,30 @@ $(function () {
       $typingMessages.remove();
     }
 
-    var $usernameDiv = $('<span class="username"/>')
-      .text(data.username)
-      .css('color', getUsernameColor(data.username));
-    var $messageBodyDiv = $('<span class="messageBody">')
-      .text(data.message);
-    var $timestampBodyDiv = $('<span class="timestampBody">   ')
-      .text(data.timestamp);
+      var $usernameDiv = $('<span class="username"/>')
+        .text(data.username)
+        .css('color', getUsernameColor(data.username));
+      var $messageBodyDiv = $('<span class="messageBody">')
+        .text(data.message);
+      var $timestampBodyDiv = $('<span class="timestampBody">   ')
+        .text(data.timestamp);
 
-    var typingClass = data.typing ? 'typing' : '';
-    var $messageDiv = $('<li class="message"/>')
-      .data('username', data.username)
-      .addClass(typingClass)
-      .append($usernameDiv, $messageBodyDiv, $timestampBodyDiv);
+      var typingClass = data.typing ? 'typing' : '';
+      var $messageDiv = $('<li class="message"/>')
+        .data('username', data.username)
+        .addClass(typingClass)
+        .append($usernameDiv, $messageBodyDiv, $timestampBodyDiv);
+    if(sleep && typingClass){
 
-    addMessageElement($messageDiv, options);
+    } else if(sleep && !typingClass){  
+      keepMessage($messageDiv, options);
+    } else {
+      var $messageDiv = $('<li class="message"/>')
+        .data('username', data.username)
+        .addClass(typingClass)
+        .append($usernameDiv, $messageBodyDiv, $timestampBodyDiv);
+      addMessageElement($messageDiv, options);
+    }
   }
 
   // Adds the visual chat typing message
@@ -176,6 +147,31 @@ $(function () {
     getTypingMessages(data).fadeOut(function () {
       $(this).remove();
     });
+  }
+
+  //Keep Message
+  function keepMessage($messageDiv, options) {
+    var i = saveCount;
+    $saveMsg[i] = $messageDiv;
+    saveOpt[i] = options;
+    if(i==0){
+      $unreadButtonNone.hide();
+      $unreadButton.show();
+    }
+    saveCount++;
+  }
+
+  function readSaveMessage() {
+    var message = "Show "+ saveCount+ " unread message";
+    log(message, {
+      prepend: false
+    });
+    for(var i=0; i<saveCount; i++){
+      addMessageElement($saveMsg[i], saveOpt[i]);
+    }
+    saveCount = 0;
+    $saveMsg = [];
+    saveOpt = [];
   }
 
   // Adds a message element to the messages and scrolls to the bottom
@@ -254,6 +250,17 @@ $(function () {
   }
 
   //Button events
+  $unreadButtonNone.click(function () {
+    alertify.warning('No unread message');
+  });
+
+  $unreadButton.click(function () {
+    alertify.success('show ' + saveCount +' unread message');
+    $unreadButtonNone.show();
+    $unreadButton.hide();
+    readSaveMessage();
+  });
+
   $leaveButton.click(function () {
     //socket.emit('leave room');
     var r = confirm("Are you sure you want to leave group ?");
@@ -263,16 +270,16 @@ $(function () {
   });
 
   $sleepButton.click(function () {
-    alertify.error('Notification Off');
+    alertify.error('Notification Off.');
+    sleep = true;
     $sleepButton2.show();
     $sleepButton.hide();
-
-
   });
 
   $sleepButton2.click(function () {
     //socket.emit('leave room');
-    alertify.success('Notification On');
+    alertify.success('Notification On.');
+    sleep = false;
     $sleepButton2.hide();
     $sleepButton.show();
   });
