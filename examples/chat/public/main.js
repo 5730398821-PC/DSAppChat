@@ -251,11 +251,11 @@ $(function () {
 
   //Button events
   $unreadButtonNone.click(function () {
-    alertify.warning('No unread message');
+    alertify.warning('<img src="src/unread-2.png" style=" height: 16px; margin-top: -1px"> No unread message');
   });
 
   $unreadButton.click(function () {
-    alertify.success('show ' + saveCount +' unread message');
+    alertify.success('<img src="src/unread-2.png" style=" height: 16px; margin-top: -1px"> show ' + saveCount +' unread message');
     $unreadButtonNone.show();
     $unreadButton.hide();
     readSaveMessage();
@@ -270,7 +270,7 @@ $(function () {
   });
 
   $sleepButton.click(function () {
-    alertify.error('Notification Off.');
+    alertify.error('<img src="src/noti-1.png" style=" height: 18px; margin-top: -3px"> Notification Off.');
     sleep = true;
     $sleepButton2.show();
     $sleepButton.hide();
@@ -278,7 +278,7 @@ $(function () {
 
   $sleepButton2.click(function () {
     //socket.emit('leave room');
-    alertify.success('Notification On.');
+    alertify.success('<img src="src/noti-2.png" style=" height: 18px; margin-top: -3px"> Notification On.');
     sleep = false;
     $sleepButton2.hide();
     $sleepButton.show();

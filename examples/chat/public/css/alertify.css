@@ -654,7 +654,7 @@
     transition-timing-function: ease-in;
     opacity: 0;
   }
-  40% {
+  50% {
     -webkit-transform: perspective(400px) rotate3d(1, 0, 0, -20deg);
             transform: perspective(400px) rotate3d(1, 0, 0, -20deg);
     transition-timing-function: ease-in;
@@ -846,8 +846,8 @@
   transition-timing-function: ease;
 }
 .alertify-notifier .ajs-message.ajs-visible {
-  transition-duration: 400ms;
-  transition-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  transition-duration: 300ms;
+  transition-timing-function: cubic-bezier(.56,.12,.14,.8);
   opacity: 1;
   max-height: 80%;
   padding: 12px;
