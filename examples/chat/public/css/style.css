@@ -113,10 +113,6 @@ ul {
 
 /* Font */
 
-.messages {
-  font-size: 150%;
-}
-
 .inputMessage {
   font-size: 100%;
 }
@@ -134,13 +130,26 @@ ul {
 }
 
 .messages {
+  font-size: 150%;
   position: absolute;
   width: 100%;
   overflow-y: scroll;
   padding: 10px 20px 10px 20px;
   top: 72px;
   bottom: 60px;
+}
 
+.messagesD {
+  font-size: 150%;
+  background-color: #333;
+  opacity: 0.9;
+  position: absolute;
+  text-align: center;
+  width: 100%;
+  overflow-y: scroll;
+  padding: 10px 20px 10px 20px;
+  top: 72px;
+  bottom: 0;
 }
 
 .message.typing .messageBody {
@@ -184,7 +193,7 @@ ul {
     border-radius: 4px;
     padding: 10px 15px;
     font-size: 16px;
-    width: 140px;
+    width: 180px;
 }
 
 .sleepButton:hover {
@@ -195,7 +204,7 @@ ul {
     border-radius: 4px;
     padding: 10px 15px;
     font-size: 16px;
-    width: 140px;
+    width: 180px;
 }
 
 .sleepButton2 {
@@ -207,7 +216,7 @@ ul {
     border-radius: 4px;
     padding: 10px 15px;
     font-size: 16px;
-    width: 140px;
+    width: 180px;
 }
 
 .sleepButton2:hover {
@@ -218,47 +227,7 @@ ul {
     border-radius: 4px;
     padding: 10px 15px;
     font-size: 16px;
-    width: 140px;
-}
-
-.unreadButtonNone {
-    outline:none;
-    background-color: #aaa;
-    color: white;
-    border: 2px black;
-    border-radius: 4px;
-    padding: 10px 15px;
-    font-size: 16px;
-    width: 140px;
-}
-
-.unreadButtonNone:hover {
-    background-color: #888;
-    color: white;
-    border-radius: 4px;
-    padding: 10px 15px;
-    font-size: 16px;
-    width: 140px;
-}
-
-.unreadButton {
-    outline:none;
-    background-color: #2bc47c;
-    color: white;
-    border: 2px black;
-    border-radius: 4px;
-    padding: 10px 15px;
-    font-size: 16px;
-    width: 140px;
-}
-
-.unreadButton:hover {
-    background-color: #219960;
-    color: white;
-    border-radius: 4px;
-    padding: 10px 15px;
-    font-size: 16px;
-    width: 140px;
+    width: 180px;
 }
 
 .leaveButton{

@@ -10,11 +10,14 @@ $(function () {
   var $saveMsg = [];
   var saveOpt = [];
   var saveCount = 0;
+  var joinCount = 0;
+  var peopleMsg = '';
 
   // Initialize variables
   var $window = $(window);
   var $usernameInput = $('.usernameInput'); // Input for username
   var $messages = $('.messages'); // Messages area
+  var $messagesD = $('.messagesD'); // Messages area  
   var $inputMessage = $('.inputMessage'); // Input message input box
   var $groupInput = $('.groupInput');
 
@@ -23,8 +26,6 @@ $(function () {
 
   var $sleepButton = $('.sleepButton');
   var $sleepButton2 = $('.sleepButton2');
-  var $unreadButton = $('.unreadButton');
-  var $unreadButtonNone = $('.unreadButtonNone');
   var $leaveButton = $('.leaveButton');
 
 
@@ -39,16 +40,17 @@ $(function () {
   var socket = io();
 
   $sleepButton2.hide();
-  $unreadButton.hide();
+  $messagesD.hide();
 
   function addParticipantsMessage(data) {
     var message = '';
     if (data.numUsers === 1) {
-      message += "there's 1 people in this room";
+      message += "<< There's 1 people in this room >>";
     } else {
-      message += "there are " + data.numUsers + " people in this room";
+      message += "<< There are " + data.numUsers + " people in this room >>";
     }
-    log(message);
+    peopleMsg = message;
+    if(!sleep) log(message);
   }
 
 
@@ -96,7 +98,11 @@ $(function () {
   // Log a message
   function log(message, options) {
     var $el = $('<li>').addClass('log').text(message);
-    addMessageElement($el, options);
+    if(!sleep) addMessageElement($el, options);
+    else {
+      keepMessage($el, options);
+      joinCount++;
+    }
   }
 
   // Adds the visual chat message to the message list
@@ -154,22 +160,37 @@ $(function () {
     var i = saveCount;
     $saveMsg[i] = $messageDiv;
     saveOpt[i] = options;
-    if(i==0){
-      $unreadButtonNone.hide();
-      $unreadButton.show();
-    }
     saveCount++;
   }
 
   function readSaveMessage() {
-    var message = "Show "+ saveCount+ " unread message";
+    var message = '';
+    var ss = saveCount - joinCount;
+    if(ss == 0 && joinCount == 0) message = "--- No unread message ---";
+    else if(ss == 0 && joinCount > 0) message = "--- While you are away ---";
+    else if(ss == 1) message = "--- Show 1 unread message ---";
+    else message = "--- Show "+ ss + " unread messages ---";
+
     log(message, {
       prepend: false
     });
+
     for(var i=0; i<saveCount; i++){
       addMessageElement($saveMsg[i], saveOpt[i]);
     }
+
+    if(ss == 0 && joinCount > 0) message = "--- End ---";
+    else if(ss == 1) message = "--- End of unread message ---";
+    else if (ss >= 2) message = "--- End of unread messages ---";
+    
+
+    if (ss != 0 || joinCount !=0) {
+      log(message, {prepend: false});
+      log(peopleMsg);
+    } 
+
     saveCount = 0;
+    joinCount = 0;
     $saveMsg = [];
     saveOpt = [];
   }
@@ -249,18 +270,6 @@ $(function () {
     return COLORS[index];
   }
 
-  //Button events
-  $unreadButtonNone.click(function () {
-    alertify.warning('<img src="src/unread-2.png" style=" height: 16px; margin-top: -1px"> No unread message');
-  });
-
-  $unreadButton.click(function () {
-    alertify.success('<img src="src/unread-2.png" style=" height: 16px; margin-top: -1px"> show ' + saveCount +' unread message');
-    $unreadButtonNone.show();
-    $unreadButton.hide();
-    readSaveMessage();
-  });
-
   $leaveButton.click(function () {
     //socket.emit('leave room');
     var r = confirm("Are you sure you want to leave group ?");
@@ -272,14 +281,17 @@ $(function () {
   $sleepButton.click(function () {
     alertify.error('<img src="src/noti-1.png" style=" height: 18px; margin-top: -3px"> Notification Off.');
     sleep = true;
+    $messagesD.fadeIn();
     $sleepButton2.show();
     $sleepButton.hide();
   });
 
   $sleepButton2.click(function () {
     //socket.emit('leave room');
-    alertify.success('<img src="src/noti-2.png" style=" height: 18px; margin-top: -3px"> Notification On.');
     sleep = false;
+    alertify.success('<img src="src/noti-2.png" style=" height: 18px; margin-top: -3px"> Notification On.');
+    readSaveMessage();
+    $messagesD.fadeOut();
     $sleepButton2.hide();
     $sleepButton.show();
   });
@@ -324,6 +336,9 @@ $(function () {
   // Whenever the server emits 'login', log the login message
   socket.on('login', function (data) {
     connected = true;
+    sleep = false;
+    $sleepButton2.hide();
+    $sleepButton.show();
     // Display the welcome message
     var message = "Welcome '" + data.username + "' to The Chat App – Room: " + data.groupID;
     log(message, {
@@ -338,21 +353,21 @@ $(function () {
   });
 
   // Whenever the server emits 'user joined', log it in the chat body
-  socket.on('user joined', function (data) {
-    log(data.username + ' joined');
-    addParticipantsMessage(data);
+  socket.on('user joined', function (data) {  
+      log(data.username + ' joined');
+      addParticipantsMessage(data);
   });
 
   // Whenever the server emits 'user left', log it in the chat body
   socket.on('user left', function (data) {
-    log(data.username + ' left');
-    addParticipantsMessage(data);
-    removeChatTyping(data);
+      log(data.username + ' left');
+      addParticipantsMessage(data);
+      removeChatTyping(data);
   });
 
   // Whenever the server emits 'typing', show the typing message
   socket.on('typing', function (data) {
-    addChatTyping(data);
+    if(!sleep) addChatTyping(data);
   });
 
   // Whenever the server emits 'stop typing', kill the typing message
@@ -365,24 +380,25 @@ $(function () {
   });
 
   socket.on('reconnect', function () {
-    log('you have been reconnected');
-    if (username) {
-      socket.emit('add user', username);
-    }
+      log('you have been reconnected');
+      if (username) {
+        socket.emit('add user', username);
+      }
   });
 
   socket.on('reconnect_error', function () {
-    log('attempt to reconnect has failed');
+   log('attempt to reconnect has failed');
   });
 
-});
-socket.on('updaterooms', function (rooms, current_room) {
-  $('#rooms').empty();
-  $.each(rooms, function (key, value) {
-    if (value == current_room) {
-      $('#rooms').append('<div>' + value + '</div>');
-    } else {
-      $('#rooms').append('<div><a href="#" onclick="switchRoom(\'' + value + '\')">' + value + '</a></div>');
-    }
+
+  socket.on('updaterooms', function (rooms, current_room) {
+    $('#rooms').empty();
+    $.each(rooms, function (key, value) {
+      if (value == current_room) {
+        $('#rooms').append('<div>' + value + '</div>');
+      } else {
+        $('#rooms').append('<div><a href="#" onclick="switchRoom(\'' + value + '\')">' + value + '</a></div>');
+      }
+    });
   });
 });
