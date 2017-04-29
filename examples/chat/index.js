@@ -5,6 +5,20 @@ var server = require('http').createServer(app);
 var io = require('../..')(server);
 var port = process.env.PORT || 3000;
 
+// edit
+var app = require('express')(),
+  server  = require("http").createServer(app),
+  io = require("socket.io")(server),
+  session = require("express-session")({
+    secret: "my-secret",
+    resave: true,
+    saveUninitialized: true
+  }),
+  sharedsession = require("express-socket.io-session");
+app.use(session);
+io.use(sharedsession(session));
+//end
+
 server.listen(port,function () {
   console.log('Server listening at port %d', port);
 });
@@ -63,13 +77,16 @@ io.on('connection', function (socket) {
     }*/
     //++numUsers[groupID]
     addedUser = true;
+    socket.handshake.session.save();
     socket.emit('login', {
+
       numUsers: groups[groupID].length,
       groupID: groupID,
       username: socket.username
     });
     // echo globally (all clients) that a person has connected
     socket.broadcast.to(socket.room).emit('user joined', {
+
       username: socket.username,
       numUsers: groups[socket.groupID].length
     });
@@ -91,6 +108,7 @@ io.on('connection', function (socket) {
 
   // when the user disconnects.. perform this
   socket.on('disconnect', function () {
+    socket.handshake.session.save();
     if (addedUser) {
       //--numUsers[socket.groupID];
       for(var i = groups[socket.groupID].length - 1; i >= 0; i--) {
