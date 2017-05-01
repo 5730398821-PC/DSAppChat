@@ -69,6 +69,6 @@ http {
 Run Application
 
 1. ไปยัง /DSAppchat/examples/chat/
-2. พิมพ์ PORT=<number of port> node index.js เพื่อ run server 
+2. พิมพ์ PORT=(Number of Port) node index.js เพื่อ run server 
     ex. PORT=3000 node index.js
 3. เข้า web browser ไปยัง localhost
